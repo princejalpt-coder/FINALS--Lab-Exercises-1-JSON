@@ -1,0 +1,86 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON AJAX Lab</title>
+</head>
+<body>
+
+    <h2>Welcome Form</h2>
+
+    <form id="userForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="response"></p>
+
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+
+            // Send JSON data to PHP
+            fetch("process.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the JSON response without reloading
+                document.getElementById("response").textContent =
+                    JSON.stringify(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+    </script>
+
+</body>
+</html>
+```
+
+
+
+
+
+
+
+
+```php
+<?php
+
+// Tell the browser that the response is JSON
+header("Content-Type: application/json");
+
+// Receive JSON data from the frontend
+$jsonData = file_get_contents("php://input");
+
+// Decode JSON into a PHP associative array
+$data = json_decode($jsonData, true);
+
+// Get the username
+$username = $data["username"];
+
+// Create the response
+$response = [
+    "status" => "success",
+    "message" => "Welcome, " . $username . "!"
+];
+
+// Send JSON response back to the frontend
+echo json_encode($response);
+
+?>
+```
