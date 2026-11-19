@@ -1,0 +1,15 @@
+<?php
+// Step 1: Set header to JSON
+header('Content-Type: application/json');
+
+// Step 2: Create user data array
+$data = array(
+    "id" => 1,
+    "name" => "Maria",
+    "email" => "maria@example.com",
+    "status" => "active"
+);
+
+// Step 3: Convert to JSON and output
+echo json_encode($data);
+?>
