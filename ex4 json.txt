@@ -1,0 +1,15 @@
+```php
+<?php
+
+// Read incoming JSON data
+$jsonData = file_get_contents('php://input');
+
+// Decode JSON data into a PHP associative array
+$data = json_decode($jsonData, true);
+
+// Access and display the received values
+echo "Username: " . $data['username'] . "<br>";
+echo "Password: " . $data['password'];
+
+?>
+```
